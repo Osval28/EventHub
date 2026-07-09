@@ -1,4 +1,4 @@
-package co.com.osval.eventhub.Controller;
+package co.com.osval.eventhub.Infrastructure.Controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
