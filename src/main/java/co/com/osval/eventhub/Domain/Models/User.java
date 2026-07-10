@@ -22,4 +22,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private List<Role> roles;
+
+    public User(String name, String email, String password, List<Role> roles) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
 }
