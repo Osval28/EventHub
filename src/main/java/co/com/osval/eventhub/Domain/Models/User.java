@@ -2,10 +2,11 @@ package co.com.osval.eventhub.Domain.Models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
-
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "users")
@@ -29,4 +30,5 @@ public class User {
         this.password = password;
         this.roles = roles;
     }
+
 }
