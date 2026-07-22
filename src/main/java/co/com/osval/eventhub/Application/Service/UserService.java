@@ -23,10 +23,22 @@ public class UserService {
     public Boolean isUserAlreadyRegistered(CreateUserRequestDTO createUserRequestDTO) {
         return userRepository.existsByEmail(createUserRequestDTO.getEmail());
     }
+
     public UserResponseDTO registerUser(CreateUserRequestDTO createUserRequestDTO) {
         User user = new User(createUserRequestDTO.getName(), createUserRequestDTO.getEmail(),
                 passwordEncoder.encode(createUserRequestDTO.getPassword()), List.of(Role.Attendee));
         User createdUser = userRepository.save(user);
         return new UserResponseDTO(createdUser.getId(), createdUser.getName(), createdUser.getEmail());
     }
+
+    public UserResponseDTO loginUser(String email, String password) {
+        User user = userRepository.findByEmail(email).orElse(null);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return new UserResponseDTO(user.getId(), user.getName(), user.getEmail());
+        } else {
+            return null;
+        }
+    }
+
+
 }

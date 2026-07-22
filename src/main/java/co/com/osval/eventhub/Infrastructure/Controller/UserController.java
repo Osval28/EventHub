@@ -2,6 +2,7 @@ package co.com.osval.eventhub.Infrastructure.Controller;
 
 import co.com.osval.eventhub.Application.DTOs.CreateUserRequestDTO;
 import co.com.osval.eventhub.Application.DTOs.LoginUserRequestDTO;
+import co.com.osval.eventhub.Application.UseCase.LoginUserUseCase;
 import co.com.osval.eventhub.Application.UseCase.RegisterUserUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class UserController {
     private RegisterUserUseCase registerUserUseCase;
-
+    private LoginUserUseCase  loginUserUseCase;
     @PostMapping("/api/users")
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequestDTO createUserRequestDTO){
         var userResponse = registerUserUseCase.execute(createUserRequestDTO);
@@ -22,7 +23,8 @@ public class UserController {
     }
     @PostMapping("/api/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginUserRequestDTO loginUserRequestDTO){
-        return ResponseEntity.ok("Login successful");
+        var userResponse = loginUserUseCase.execute(loginUserRequestDTO.getEmail(), loginUserRequestDTO.getPassword());
+        return ResponseEntity.ok(userResponse);
     }
 
     @GetMapping("/api/users")

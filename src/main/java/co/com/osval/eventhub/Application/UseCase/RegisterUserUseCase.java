@@ -14,7 +14,6 @@ public class RegisterUserUseCase {
     }
 
     public UserResponseDTO execute(CreateUserRequestDTO createUserRequestDTO) {
-        //Lógica de validación de datos
         if (userService.isUserAlreadyRegistered(createUserRequestDTO)){
             throw new UserAlreadyExistsException();
         } else {
