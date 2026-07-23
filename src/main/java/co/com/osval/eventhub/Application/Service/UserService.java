@@ -2,9 +2,11 @@ package co.com.osval.eventhub.Application.Service;
 
 import co.com.osval.eventhub.Application.DTOs.CreateUserRequestDTO;
 import co.com.osval.eventhub.Application.DTOs.UserResponseDTO;
+import co.com.osval.eventhub.Domain.Exceptions.UserNotFoundException;
 import co.com.osval.eventhub.Domain.Models.Role;
 import co.com.osval.eventhub.Domain.Models.User;
 import co.com.osval.eventhub.Infrastructure.Repository.UserRepository;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,12 +34,13 @@ public class UserService {
     }
 
     public UserResponseDTO loginUser(String email, String password) {
-        User user = userRepository.findByEmail(email).orElse(null);
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            return new UserResponseDTO(user.getId(), user.getName(), user.getEmail());
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException());
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new BadCredentialsException("Invalid email or password");
         } else {
-            return null;
+            return new UserResponseDTO(user.getId(), user.getName(), user.getEmail());
         }
+
     }
 
 

@@ -1,5 +1,6 @@
 package co.com.osval.eventhub.Application.UseCase;
 
+import co.com.osval.eventhub.Application.DTOs.LoginUserRequestDTO;
 import co.com.osval.eventhub.Application.DTOs.UserResponseDTO;
 import co.com.osval.eventhub.Application.Service.UserService;
 import co.com.osval.eventhub.Domain.Exceptions.UserNotFoundException;
@@ -11,12 +12,8 @@ import org.springframework.stereotype.Component;
 public class LoginUserUseCase {
     private UserService userService;
 
-    public UserResponseDTO execute(String email, String password){
-        UserResponseDTO userResponseDTO = userService.loginUser(email, password);
-        if (userResponseDTO == null){
-            throw new UserNotFoundException();
-        } else {
-            return userResponseDTO;
-        }
+    public UserResponseDTO execute(LoginUserRequestDTO loginUserRequestDTO) {
+        UserResponseDTO userResponseDTO = userService.loginUser(loginUserRequestDTO.getEmail(), loginUserRequestDTO.getPassword());
+        return userResponseDTO;
     }
 }

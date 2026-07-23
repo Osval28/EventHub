@@ -14,16 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 public class UserController {
+
     private RegisterUserUseCase registerUserUseCase;
     private LoginUserUseCase  loginUserUseCase;
+
     @PostMapping("/api/users")
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequestDTO createUserRequestDTO){
         var userResponse = registerUserUseCase.execute(createUserRequestDTO);
         return ResponseEntity.ok(userResponse);
     }
+
     @PostMapping("/api/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginUserRequestDTO loginUserRequestDTO){
-        var userResponse = loginUserUseCase.execute(loginUserRequestDTO.getEmail(), loginUserRequestDTO.getPassword());
+        var userResponse = loginUserUseCase.execute(loginUserRequestDTO);
         return ResponseEntity.ok(userResponse);
     }
 
